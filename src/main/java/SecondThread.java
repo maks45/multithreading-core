@@ -1,13 +1,14 @@
+import javax.swing.plaf.IconUIResource;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
 public class SecondThread implements Runnable {
     private final CyclicBarrier cyclicBarrier;
-    private final int[] value;
+    private final Counter counter;
 
-    public SecondThread(CyclicBarrier cyclicBarrier, int[] value) {
+    public SecondThread(CyclicBarrier cyclicBarrier, Counter counter) {
         this.cyclicBarrier = cyclicBarrier;
-        this.value = value;
+        this.counter = counter;
     }
 
     public void run() {
@@ -16,9 +17,11 @@ public class SecondThread implements Runnable {
         } catch (InterruptedException | BrokenBarrierException e) {
             e.printStackTrace();
         }
-        for(; value[0] < Main.END; value[0]++){
-            System.out.println(Thread.currentThread().getName()+ " (implements Runnable) incremented value now it's: " + value[0]);
+        while (counter.getValue() < counter.getMaxValue()) {
+            counter.increment();
+            System.out.println(Thread.currentThread().getName() + " (implements Runnable) incremented value now it's: "
+                    + counter.getValue());
         }
-        System.out.println(Thread.currentThread().getName()+ " (implements Runnable) is finish!");
+        System.out.println(Thread.currentThread().getName() + " (implements Runnable) is finish!");
     }
 }
