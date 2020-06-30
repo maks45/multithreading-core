@@ -1,3 +1,5 @@
+package com.maks.durov;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
